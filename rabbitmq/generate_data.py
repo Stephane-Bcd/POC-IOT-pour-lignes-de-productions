@@ -52,7 +52,7 @@ def gen_data (sensor_type, sensor_name, nb):
     for i in range (0,nb):
         date, timestamp = gen_datetime()
 
-        if sensor_type in ["Capot","AllumageMachine","Piecefonctionnelle"]:
+        if sensor_type in ["Capot","AllumageMachine","Piecefonctionnelle","Fonctionne"]:
             if i==0:
                 val = random.choice([0, 1])
             returned_data.append({"NomCapteur": sensor_name, "DateCapture": date,"ValeurCapture":  math.floor(val), "TimestampCapture": timestamp})
@@ -144,6 +144,12 @@ client1_data = {
             "sensor_type": "Humidite",
             "line": "ligne1",
             "generated_data": []
+        },
+        {
+            "sensor_name": None,
+            "sensor_type": "Fonctionne",
+            "line": "ligne1",
+            "generated_data": []
         }
     ],
     "Usine2": [
@@ -204,6 +210,12 @@ client1_data = {
         {
             "sensor_name": None,
             "sensor_type": "Humidite",
+            "line": "ligne1",
+            "generated_data": []
+        },
+        {
+            "sensor_name": None,
+            "sensor_type": "Fonctionne",
             "line": "ligne1",
             "generated_data": []
         }
