@@ -1,0 +1,26 @@
+version: '3.3'
+services:
+    moke1:
+        image: "pcourbin/mock-data-generator:latest"
+        hostname: "moke1"
+        environment:
+            SENZING_SUBCOMMAND: random-to-rabbitmq
+            SENZING_RANDOM_SEED: 1
+            SENZING_RECORD_MIN: 1
+            SENZING_RECORD_MAX: 100
+            SENZING_RECORDS_PER_SECOND: 1
+            SENZING_RABBITMQ_HOST: rabbitmq1
+            SENZING_RABBITMQ_PASSWORD: rabbitmq
+            SENZING_RABBITMQ_USERNAME: rabbitmq
+            SENZING_RABBITMQ_QUEUE: Client1
+            MIN_VALUE: 500
+            MAX_VALUE: 700
+            SENZING_DATA_TEMPLATE: '{"SENSOR":"Temp1","DATE":"date_now", "VALUE":"float"}'
+        tty: true
+        labels:
+            NAME: "moke1"
+        networks:
+            - iot-labs
+networks:
+    iot-labs:
+        external: true

@@ -1,0 +1,23 @@
+#https://github.com/marcelmaatkamp/docker-rabbitmq-mongodb
+version: '3.3'
+services:
+    amqp2mongo1:
+        image: "marcelmaatkamp/rabbitmq-mongodb"
+        hostname: "amqp2mongo1"
+        environment:
+            AMQPHOST: 'amqp://rabbitmq:rabbitmq@rabbitmq1:5672/Client1'
+            MONGODB: 'mongodb://mongo/Client1'
+            MONGOCOLLECTION: 'captures'
+            TRANSLATECONTENT: 'true'
+        command: 'Client1'
+        tty: true
+        labels:
+            NAME: "amqp2mongo1"
+        networks:
+            - iot-labs
+        restart: always
+networks:
+    iot-labs:
+        external: true
+
+
