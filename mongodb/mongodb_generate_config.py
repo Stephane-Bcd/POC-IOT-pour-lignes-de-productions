@@ -6,8 +6,8 @@ def create_indexes(col):
     resp = col.create_index([ 
         ("TypeCapteur", -1),
         ("NomCapteur", -1),
-        ("NomPiece", -1),
-        ("NomMaison", -1)
+        ("NomLigne", -1),
+        ("NomUsine", -1)
     ])
 
 
@@ -24,9 +24,9 @@ with open(project_fullpath+'/generated_data.txt') as json_file:
         databases[client]["database"] = connection[client]
         databases[client]["metadatacol"]  =  databases[client]["database"]["metadata"]
 
-        for room in data[client]:
-            for sensor in data[client][room]:
-                document = {"TypeCapteur": sensor["sensor_type"], "NomCapteur": sensor["sensor_name"], "NomPiece": room, "NomMaison": "Maison1"}
+        for usine in data[client]:
+            for sensor in data[client][usine]:
+                document = {"TypeCapteur": sensor["sensor_type"], "NomCapteur": sensor["sensor_name"], "NomLigne": sensor["line"], "NomUsine": usine}
                 print(document)
                 databases[client]["metadatacol"].insert_one(document)
                 

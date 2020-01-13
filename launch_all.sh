@@ -44,13 +44,13 @@ sleep 20s
 # Re-launching all the configuration scripts
 printf "\n\nRe-launching all the configuration scripts\n"
 sh rabbitmq/rabbitmq-generate-config.sh
-# python3 mongodb/mongodb_generate_config.py
+python3 mongodb/mongodb_generate_config.py
 
 
 # Launching data geneation scripts
 printf "\n\nLaunching data generation scripts\n"
 # docker-compose -f mock\ data/docker-compose-mock-data.yml up
-# python3 rabbitmq/generate_data.py
+python3 rabbitmq/generate_data.py
 
 #(python script to use generated file; docker-compose to connect mongo with rabbitmq)
 # python3 mongodb/mongodb_send_data_from_json_file.py

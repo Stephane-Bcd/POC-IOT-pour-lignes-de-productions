@@ -223,8 +223,8 @@ data = {
 
 '''
 
-captures_by_sensor = 2
-verbose = True
+captures_by_sensor = 90
+verbose = False
 clients_to_ignore = []
 
 print("generate_data.py: generating names and data")
