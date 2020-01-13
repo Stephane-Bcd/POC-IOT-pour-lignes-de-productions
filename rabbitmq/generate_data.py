@@ -23,7 +23,7 @@ def rabbitmq_connection(adress = "localhost", port = 5672, vhost = "Client1", us
 '''
     Function to post a message on an eschange
 '''
-def pub_msg(channel, exchange= "Client1-Maison1", routing_key = "", msg='Hello World!'):
+def pub_msg(channel, exchange= "Client1-Usine1", routing_key = "usine1", msg='Hello World!'):
     properties = pika.BasicProperties(content_type="application/json", content_encoding="utf8")
     channel.basic_publish(exchange=exchange,
             routing_key=routing_key,
@@ -52,21 +52,23 @@ def gen_data (sensor_type, sensor_name, nb):
     for i in range (0,nb):
         date, timestamp = gen_datetime()
 
-        if sensor_type in ["OuverturePorteEntree","Ampoule","OuverturePorteFenetre","Presence"]:
+        if sensor_type in ["Capot","AllumageMachine","Piecefonctionnelle"]:
             if i==0:
                 val = random.choice([0, 1])
             returned_data.append({"NomCapteur": sensor_name, "DateCapture": date,"ValeurCapture":  math.floor(val), "TimestampCapture": timestamp})
         elif sensor_type == "Temperature":
             returned_data.append({"NomCapteur": sensor_name, "DateCapture": date, "ValeurCapture":  math.floor(random.uniform(-10.0, 35.0)*100)/100, "TimestampCapture": timestamp})
-        elif sensor_type == "Chauffage":
-            if i==0:
-                val = random.choice(["Confort", "Confort -1 C", "Confort -2 C", "Eco", "Hors gel", "Arret"])
-            returned_data.append({"NomCapteur": sensor_name, "DateCapture": date, "ValeurCapture":  val, "TimestampCapture": timestamp})
-        elif sensor_type in ["PuissanceCapt","PriseElec"]:
+        elif sensor_type == "Corrosion":
+            returned_data.append({"NomCapteur": sensor_name, "DateCapture": date, "ValeurCapture":  math.floor(random.uniform(0.0, 100.0)*100)/100, "TimestampCapture": timestamp})
+        elif sensor_type == "Pression":
+            returned_data.append({"NomCapteur": sensor_name, "DateCapture": date, "ValeurCapture":  math.floor(random.uniform(10, 35)*100)/100, "TimestampCapture": timestamp})
+        elif sensor_type == "Humidite":
+            returned_data.append({"NomCapteur": sensor_name, "DateCapture": date, "ValeurCapture":  math.floor(random.uniform(0.0, 100.0)*100)/100, "TimestampCapture": timestamp})
+        elif sensor_type in ["Puissance"]:
             if i==0:
                 val = random.choice([True,False])
             if val:
-                val2 = random.uniform(1, 6)
+                val2 = random.uniform(1, 200)
             else:
                 val2 = 0
             returned_data.append({"NomCapteur": sensor_name, "DateCapture": date, "ValeurCapture":  math.floor(val2), "TimestampCapture": timestamp})
@@ -82,242 +84,136 @@ def gen_data (sensor_type, sensor_name, nb):
 # Both clients sensors data initialisation
 
 client1_data = {
-    "Entree": [
+    "Usine1": [
         {
             "sensor_name": None,
-            "sensor_type": "OuverturePorteEntree",
-            "generated_data": []
-        },
-        {
-            "sensor_name": None,
-            "sensor_type": "Ampoule",
-            "generated_data": []
-        }
-    ],
-    "Salon": [
-        {
-            "sensor_name": None,
-            "sensor_type": "OuverturePorteFenetre",
-            "generated_data": []
-        },
-        {
-            "sensor_name": None,
-            "sensor_type": "OuverturePorteFenetre",
-            "generated_data": []
-        },
-        {
-            "sensor_name": None,
-            "sensor_type": "Ampoule",
-            "generated_data": []
-        },
-        {
-            "sensor_name": None,
-            "sensor_type": "Ampoule",
-            "generated_data": []
-        },
-        {
-            "sensor_name": None,
-            "sensor_type": "Presence",
+            "sensor_type": "Corrosion",
+            "line": "ligne1",
             "generated_data": []
         },
         {
             "sensor_name": None,
             "sensor_type": "Temperature",
+            "line": "ligne1",
             "generated_data": []
         },
         {
             "sensor_name": None,
-            "sensor_type": "Chauffage",
+            "sensor_type": "AllumageMachine",
+            "line": "ligne1",
             "generated_data": []
         },
         {
             "sensor_name": None,
-            "sensor_type": "Chauffage",
+            "sensor_type": "Capot",
+            "line": "ligne1",
             "generated_data": []
         },
         {
             "sensor_name": None,
-            "sensor_type": "PuissanceCapt",
+            "sensor_type": "Piecefonctionnelle",
+            "line": "ligne1",
             "generated_data": []
         },
         {
             "sensor_name": None,
-            "sensor_type": "PuissanceCapt",
+            "sensor_type": "Piecefonctionnelle",
+            "line": "ligne1",
+            "generated_data": []
+        },
+        {
+            "sensor_name": None,
+            "sensor_type": "Piecefonctionnelle",
+            "line": "ligne1",
+            "generated_data": []
+        },
+        {
+            "sensor_name": None,
+            "sensor_type": "Puissance",
+            "line": "ligne1",
+            "generated_data": []
+        },
+        {
+            "sensor_name": None,
+            "sensor_type": "Pression",
+            "line": "ligne1",
+            "generated_data": []
+        },
+        {
+            "sensor_name": None,
+            "sensor_type": "Humidite",
+            "line": "ligne1",
             "generated_data": []
         }
     ],
-    "Chambre": [
+    "Usine2": [
         {
             "sensor_name": None,
-            "sensor_type": "OuverturePorteFenetre",
-            "generated_data": []
-        },
-        {
-            "sensor_name": None,
-            "sensor_type": "OuverturePorteFenetre",
-            "generated_data": []
-        },
-        {
-            "sensor_name": None,
-            "sensor_type": "Ampoule",
-            "generated_data": []
-        },
-        {
-            "sensor_name": None,
-            "sensor_type": "Presence",
+            "sensor_type": "Corrosion",
+            "line": "ligne1",
             "generated_data": []
         },
         {
             "sensor_name": None,
             "sensor_type": "Temperature",
+            "line": "ligne1",
             "generated_data": []
         },
         {
             "sensor_name": None,
-            "sensor_type": "Chauffage",
-            "generated_data": []
-        }
-    ],
-    "Cuisine": [
-        {
-            "sensor_name": None,
-            "sensor_type": "Presence",
+            "sensor_type": "AllumageMachine",
+            "line": "ligne1",
             "generated_data": []
         },
         {
             "sensor_name": None,
-            "sensor_type": "Temperature",
+            "sensor_type": "Capot",
+            "line": "ligne1",
             "generated_data": []
         },
         {
             "sensor_name": None,
-            "sensor_type": "Chauffage",
+            "sensor_type": "Piecefonctionnelle",
+            "line": "ligne1",
             "generated_data": []
         },
         {
             "sensor_name": None,
-            "sensor_type": "PriseElec",
+            "sensor_type": "Piecefonctionnelle",
+            "line": "ligne1",
             "generated_data": []
         },
         {
             "sensor_name": None,
-            "sensor_type": "PuissanceCapt",
+            "sensor_type": "Piecefonctionnelle",
+            "line": "ligne1",
             "generated_data": []
         },
         {
             "sensor_name": None,
-            "sensor_type": "PuissanceCapt",
-            "generated_data": []
-        }
-    ],
-    "Salle de bains": [
-        {
-            "sensor_name": None,
-            "sensor_type": "PuissanceCapt",
+            "sensor_type": "Puissance",
+            "line": "ligne1",
             "generated_data": []
         },
         {
             "sensor_name": None,
-            "sensor_type": "Chauffage",
+            "sensor_type": "Pression",
+            "line": "ligne1",
             "generated_data": []
         },
         {
             "sensor_name": None,
-            "sensor_type": "Ampoule",
+            "sensor_type": "Humidite",
+            "line": "ligne1",
             "generated_data": []
         }
     ]
 }
 
-client2_data = {
-    "Chambre": [
-        {
-            "sensor_name": None,
-            "sensor_type": "Ampoule",
-            "generated_data": []
-        },
-        {
-            "sensor_name": None,
-            "sensor_type": "Presence",
-            "generated_data": []
-        },
-        {
-            "sensor_name": None,
-            "sensor_type": "Temperature",
-            "generated_data": []
-        },
-        {
-            "sensor_name": None,
-            "sensor_type": "Chauffage",
-            "generated_data": []
-        }
-    ],
-    "Salon": [
-        {
-            "sensor_name": None,
-            "sensor_type": "Ampoule",
-            "generated_data": []
-        },
-        {
-            "sensor_name": None,
-            "sensor_type": "Presence",
-            "generated_data": []
-        },
-        {
-            "sensor_name": None,
-            "sensor_type": "Temperature",
-            "generated_data": []
-        },
-        {
-            "sensor_name": None,
-            "sensor_type": "Chauffage",
-            "generated_data": []
-        }
-    ],
-    "Cuisine": [
-        {
-            "sensor_name": None,
-            "sensor_type": "Ampoule",
-            "generated_data": []
-        },
-        {
-            "sensor_name": None,
-            "sensor_type": "Presence",
-            "generated_data": []
-        },
-        {
-            "sensor_name": None,
-            "sensor_type": "Temperature",
-            "generated_data": []
-        },
-        {
-            "sensor_name": None,
-            "sensor_type": "Chauffage",
-            "generated_data": []
-        }
-    ],
-    "Salle de bains":[
-        {
-            "sensor_name": None,
-            "sensor_type": "PuissanceCapt",
-            "generated_data": []
-        },
-        {
-            "sensor_name": None,
-            "sensor_type": "Chauffage",
-            "generated_data": []
-        },
-        {
-            "sensor_name": None,
-            "sensor_type": "Ampoule",
-            "generated_data": []
-        }
-    ]
-}
+
 
 data = {
-    "Client1": client1_data,
-    "Client2": client2_data
+    "Client1": client1_data
 }
 
 
@@ -327,8 +223,8 @@ data = {
 
 '''
 
-captures_by_sensor = 90
-verbose = False
+captures_by_sensor = 2
+verbose = True
 clients_to_ignore = []
 
 print("generate_data.py: generating names and data")
@@ -338,10 +234,10 @@ tmp_sensor_names_counters = {}
 for client in data:
     if client not in clients_to_ignore:
         client_data = data[client]
-        for room in client_data:
-            room_sensors = client_data[room]
+        for usine in client_data:
+            usine_sensors = client_data[usine]
             
-            for sensor_idx, sensor in enumerate(room_sensors, start=0):
+            for sensor_idx, sensor in enumerate(usine_sensors, start=0):
 
                 sensor_type = sensor["sensor_type"]
 
@@ -351,8 +247,8 @@ for client in data:
                 sensor_name = sensor_type + str(tmp_sensor_names_counters[sensor_type])
                 tmp_sensor_names_counters[sensor_type]+=1
                 
-                data[client][room][sensor_idx]["sensor_name"] = sensor_name
-                data[client][room][sensor_idx]["generated_data"] = gen_data(sensor_type, sensor_name, captures_by_sensor)
+                data[client][usine][sensor_idx]["sensor_name"] = sensor_name
+                data[client][usine][sensor_idx]["generated_data"] = gen_data(sensor_type, sensor_name, captures_by_sensor)
 
 
 
@@ -383,12 +279,12 @@ for client in data:
     # Connecting to rabbitmq
     channel, connection = rabbitmq_connection(vhost = client)
 
-    for room in client_data:
-        room_sensors = client_data[room]
-        for sensor_idx, sensor in enumerate(room_sensors, start=0):
+    for usine in client_data:
+        usine_sensors = client_data[usine]
+        for sensor_idx, sensor in enumerate(usine_sensors, start=0):
             sensor_data = sensor["generated_data"]
             for capture in sensor_data:
-                pub_msg(channel, exchange= client+"-Maison1", msg=str(json.dumps(capture)))
+                pub_msg(channel, exchange= client+"-"+usine, msg=str(json.dumps(capture)))
 
     # Disconnecting from Rabbitmq
     connection.close()

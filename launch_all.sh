@@ -1,5 +1,5 @@
 # Go to project folder
-export PROJECTPATH="/home/stephanevm/Documents/FilRouge/Dev-app-web-service-for-IOT---Fil-rouge"
+export PROJECTPATH="/home/stephanevm/Documents/POC/POC-IOT-pour-lignes-de-productions"
 
 pwd
 ls
@@ -31,29 +31,29 @@ docker network create iot-labs
 printf "\n\nRelaunching all containers\n"
 docker-compose -f rabbitmq/docker-compose-rabbitmq.yml up -d
 docker-compose -f mongodb/docker-compose-mongodb.yml up -d
-# docker-compose -f nifi/docker-compose-nifi.yml up -d
-# docker-compose -f nifi/docker-compose-ftp.yml up -d
-# docker-compose -f InfluxDB\ Chronograph/docker-compose-chronograph-infuxdb.yml up -d
-# docker-compose -f Grafana/docker-compose-grafana.yml up -d
-# docker run --rm -v "${PWD}/API Swagger":/local swaggerapi/swagger-codegen-cli-v3:3.0.14 generate -i /local/timeseries_iot.yaml -l python-flask -DpackageName=TimeSeriesIoT -o /local/out/python-ts-iot
-# docker-compose -f API\ Swagger/docker-compose.yml up -d
+docker-compose -f nifi/docker-compose-nifi.yml up -d
+docker-compose -f nifi/docker-compose-ftp.yml up -d
+docker-compose -f InfluxDB\ Chronograph/docker-compose-chronograph-infuxdb.yml up -d
+docker-compose -f Grafana/docker-compose-grafana.yml up -d
+docker run --rm -v "${PWD}/API Swagger":/local swaggerapi/swagger-codegen-cli-v3:3.0.14 generate -i /local/timeseries_iot.yaml -l python-flask -DpackageName=TimeSeriesIoT -o /local/out/python-ts-iot
+docker-compose -f API\ Swagger/docker-compose.yml up -d
 
 
-sleep 15s
+sleep 20s
 
 # Re-launching all the configuration scripts
 printf "\n\nRe-launching all the configuration scripts\n"
 sh rabbitmq/rabbitmq-generate-config.sh
-python3 mongodb/mongodb_generate_config.py
+# python3 mongodb/mongodb_generate_config.py
 
 
 # Launching data geneation scripts
 printf "\n\nLaunching data generation scripts\n"
 # docker-compose -f mock\ data/docker-compose-mock-data.yml up
-python3 rabbitmq/generate_data.py
+# python3 rabbitmq/generate_data.py
 
 #(python script to use generated file; docker-compose to connect mongo with rabbitmq)
-python3 mongodb/mongodb_send_data_from_json_file.py
+# python3 mongodb/mongodb_send_data_from_json_file.py
 # docker-compose -f mongodb/docker-compose-rabbitmq-mongodb.yml up -d
 
 
